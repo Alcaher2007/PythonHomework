@@ -46,10 +46,7 @@ else:
     #print(expression)
     expression = RELOAD.del_brackets(expression)
     expression = RELOAD.solution_comparison(expression)
-    print(expression)
-
-    
-
+    print(expression[0])
 
 
 
