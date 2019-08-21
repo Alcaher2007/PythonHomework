@@ -12,7 +12,7 @@ line parsing and the final result calculation.
 """
 
 
-parser = argparse.ArgumentParser(description = "Parser 2.0", prefix_chars='+')
+parser = argparse.ArgumentParser(description = "Pure-python command-line calculator.", prefix_chars='+')
 parser.add_argument('cal_exp')
 parser.add_argument('+m', '++use-modules', metavar='MODULE', nargs='*', 
                     dest='modules', help="additional modules to use")
@@ -83,7 +83,7 @@ def calculator() -> float or bool:
     return expression[0]
 
 
-print(calculator())
+#print(calculator())
 
 
 
