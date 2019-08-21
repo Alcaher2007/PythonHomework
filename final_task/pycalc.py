@@ -5,10 +5,12 @@ import calc_solution
 import importlib.util
 from typing import List
 
+
 """
 This module is main. It makes assignments of functions from other modules,
-line parsing and the final result calculation
+line parsing and the final result calculation.
 """
+
 
 parser = argparse.ArgumentParser(description = "Parser 2.0", prefix_chars='+')
 parser.add_argument('cal_exp')
@@ -16,7 +18,6 @@ parser.add_argument('+m', '++use-modules', metavar='MODULE', nargs='*',
                     dest='modules', help="additional modules to use")
 results = parser.parse_args()
 parser_string = list(shlex.shlex(results.cal_exp, punctuation_chars=False))
-
 
 
 def check_module(module_name):
@@ -32,6 +33,7 @@ def check_module(module_name):
             modules.append(importlib.util.find_spec(value))
     return modules
 
+
 def import_module_from_spec(module_spec):
     """
     The function  accepts 'import_module_from_spec'
@@ -46,7 +48,6 @@ def import_module_from_spec(module_spec):
     return module
 
 
-
 def calculator() -> float or bool:
     """
     It's function, which collects all functions together and does the counting
@@ -56,7 +57,6 @@ def calculator() -> float or bool:
         modules_launch = import_module_from_spec(modules)
         if modules_launch:
             calc_solution.fill_dict_user_modules(modules_launch)
-            
     converted_string = pars_analysis.join_float(parser_string)
     converted_string = pars_analysis.conversion_signs(converted_string)
     converted_strings = calc_solution.convertion_const(converted_string)
@@ -65,6 +65,7 @@ def calculator() -> float or bool:
     expression = pars_analysis.add_brackets(converted_strings)
     expression = calc_solution.replace_minus_trig(expression)
 
+    
     def solut_func(expression: List[str or float]) -> List[float or bool]:
         """
         this function changes list of parse and does counting
@@ -78,9 +79,9 @@ def calculator() -> float or bool:
             expression = calc_solution.del_brackets(expression)
             expression = calc_solution.solution_comparison(expression)
             return expression
-
     expression = solut_func(expression)
     return expression[0]
+
 
 print(calculator())
 

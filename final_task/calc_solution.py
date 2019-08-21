@@ -3,19 +3,20 @@ import operator
 import math
 from typing import List
 
+
 """
 This module fills out dictionaries of math operators. Also it has functions, that decide expression of parser string.
 """
 
+
 OPERATORS = {'1': {'^': operator.pow},
              '2': {'/': operator.truediv, '%': operator.mod, '*': operator.mul, '//': operator.floordiv},
-             '3': {'+': operator.add, '-': operator.sub}}
+             '3': {'+': operator.add, '-': operator.sub}
+             }
+
 OPERATORS = OrderedDict(OPERATORS)
-
 OPERATORS_TRIG = dict()
-
-OPERATORS_CONST = dict()
-                   
+OPERATORS_CONST = dict()               
 OPERATORS_COMPARISON = {'1':{'<': operator.lt,
                             '>': operator.gt,
                             '<=': operator.le,
@@ -27,7 +28,6 @@ OPERATORS_COMPARISON = {'1':{'<': operator.lt,
                         }
 
 OPERATORS_COMPARISON =  OrderedDict(OPERATORS_COMPARISON)
-
 OPERATORS_UNAR = {'-': operator.neg, '+': operator.pos}                        
 
 
@@ -45,7 +45,6 @@ def fill_dict_math(module: str) -> None:
     OPERATORS_TRIG['abs'] = abs
     OPERATORS_TRIG['round'] = round
 
-fill_dict_math(math)
 
 def fill_dict_user_modules(list_of_modules) -> None:
     """
@@ -59,6 +58,7 @@ def fill_dict_user_modules(list_of_modules) -> None:
                 OPERATORS_CONST[key] = values
             else:
                 OPERATORS_TRIG[key] = values
+
                 
 def convertion_const(expression: List[str]) -> List[str or float]:
     """
@@ -70,7 +70,6 @@ def convertion_const(expression: List[str]) -> List[str or float]:
     return expression
 
                       
-
 def absolute_solution(expr: List[str or float]) -> List[str or float]:
     """
     Operational Priority Solution and adding sign '(' after 'e'.
@@ -120,6 +119,7 @@ def trig_solution(exp: List[str or float]) -> List[str or float]:
         exp = absolute_solution(exp)
     return exp
 
+
 def del_brackets(exp: List[str or float]) -> List[str or float]:
     """
     remove all brackets from a string.
@@ -132,6 +132,7 @@ def del_brackets(exp: List[str or float]) -> List[str or float]:
         i += 1
     exp = absolute_solution(exp)
     return exp
+
                 
 def solution_comparison(exp: List[str or float]) -> List[bool or float]:
     """
@@ -150,6 +151,7 @@ def solution_comparison(exp: List[str or float]) -> List[bool or float]:
         else:
             exp[:] = [True]
     return exp
+
 
 def solution_unar(exp: List[str or float]) -> List[float]:
     """
@@ -195,6 +197,7 @@ def join_minus(exp: List[str or float]) -> List[str or float]:
                 exp[i:i+2] = ["-{}".format(exp[i+1])]
     return exp
 
+
 def replace_minus_trig(exp: List[str or float]) -> List[str or float]:
     """
     Replacing the minus near trigonometrical expression with '-1 *'
@@ -203,8 +206,9 @@ def replace_minus_trig(exp: List[str or float]) -> List[str or float]:
         if value == '-' and exp[i+1] in OPERATORS_TRIG and exp[i-1] == '(':
             exp[i:i+1] = ['-1', '*']
     return exp
+
     
-        
+fill_dict_math(math)        
                 
 
     

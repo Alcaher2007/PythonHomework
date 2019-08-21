@@ -1,5 +1,6 @@
 from typing import List
 
+
 def join_float(parser_list: List[str]) -> List[str]:
     """
     Joining integer values ​​in float
@@ -16,8 +17,6 @@ def join_float(parser_list: List[str]) -> List[str]:
             else:
                 parser_list[i-1:i+2]=[parser_list[i-1]+parser_list[i]+parser_list[i+1]]
     return parser_list
-
-
 
 
 def conversion_signs(split_string: List[str]) -> List[str]:
@@ -52,6 +51,7 @@ def merging_comparison_oper(list_string):
         if value in list_oper and list_string[i+1] in list_oper:
             list_string[i:i+2] = [value + list_string[i+1]]        
     return list_string
+
             
 def add_brackets(list_of_string):
     """Brackets before and after the comma"""
