@@ -1,7 +1,7 @@
 from collections import OrderedDict
 import operator
 import math
-from typing import List
+from typing import List, Union
 
 
 """
@@ -60,7 +60,7 @@ def fill_dict_user_modules(list_of_modules) -> None:
                 OPERATORS_TRIG[key] = values
 
                 
-def convertion_const(expression: List[str]) -> List[str or float]:
+def convertion_const(expression: List[str]) -> List[Union[str, float]]:
     """
     replacement of string constants with their numerical value.
     """
@@ -70,7 +70,7 @@ def convertion_const(expression: List[str]) -> List[str or float]:
     return expression
 
                       
-def absolute_solution(expr: List[str or float]) -> List[str or float]:
+def absolute_solution(expr: List[Union[str, float]]) -> List[Union[str, float]]:
     """
     Operational Priority Solution and adding sign '(' after 'e'.
     """
@@ -95,7 +95,7 @@ def absolute_solution(expr: List[str or float]) -> List[str or float]:
     return expr
 
 
-def trig_solution(exp: List[str or float]) -> List[str or float]:
+def trig_solution(exp: List[Union[str, float]]) -> List[Union[str, float]]:
     """
     Solving trigonometric expressions and comma.
     """
@@ -120,7 +120,7 @@ def trig_solution(exp: List[str or float]) -> List[str or float]:
     return exp
 
 
-def del_brackets(exp: List[str or float]) -> List[str or float]:
+def del_brackets(exp: List[Union[str, float]]) -> List[Union[str, float]]:
     """
     remove all brackets from a string.
     """
@@ -134,7 +134,7 @@ def del_brackets(exp: List[str or float]) -> List[str or float]:
     return exp
 
                 
-def solution_comparison(exp: List[str or float]) -> List[bool or float]:
+def solution_comparison(exp: List[Union[str, float]]) -> List[Union[str, float]]:
     """
     Solving for operators of comparison.
     """
@@ -153,7 +153,7 @@ def solution_comparison(exp: List[str or float]) -> List[bool or float]:
     return exp
 
 
-def solution_unar(exp: List[str or float]) -> List[float]:
+def solution_unar(exp: List[Union[str, float]]) -> List[Union[str, float]]:
     """
     Unary operations solution.
     """
@@ -162,7 +162,7 @@ def solution_unar(exp: List[str or float]) -> List[float]:
     return exp
 
 
-def join_minus(exp: List[str or float]) -> List[str or float]:
+def join_minus(exp: List[Union[str, float]]) -> List[Union[str, float]]:
     """
     Add minuses to the numbers on the right and also near the exponent. Addng a plus, where necessary. 
     """
@@ -198,7 +198,7 @@ def join_minus(exp: List[str or float]) -> List[str or float]:
     return exp
 
 
-def replace_minus_trig(exp: List[str or float]) -> List[str or float]:
+def replace_minus_trig(exp: List[Union[str, float]]) -> List[Union[str, float]]:
     """
     Replacing the minus near trigonometrical expression with '-1 *'
     """

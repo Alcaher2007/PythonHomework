@@ -1,9 +1,9 @@
 import argparse
 import shlex
-import pars_analysis
-import calc_solution
+from pars_analysis import join_float, conversion_signs, merging_comparison_oper, add_brackets
+from calc_solution import *
 import importlib.util
-from typing import List
+from typing import List, Union
 
 
 """
@@ -48,7 +48,7 @@ def import_module_from_spec(module_spec):
     return module
 
 
-def calculator() -> float or bool:
+def calculator() -> Union[str, bool, float, int]:
     """
     It's function, which collects all functions together and does the counting
     """
@@ -56,31 +56,24 @@ def calculator() -> float or bool:
         modules = check_module(results.modules)
         modules_launch = import_module_from_spec(modules)
         if modules_launch:
-            calc_solution.fill_dict_user_modules(modules_launch)
-    converted_string = pars_analysis.join_float(parser_string)
-    converted_string = pars_analysis.conversion_signs(converted_string)
-    converted_strings = calc_solution.convertion_const(converted_string)
-    converted_strings = calc_solution.join_minus(converted_strings)
-    converted_strings = pars_analysis.merging_comparison_oper(converted_strings)
-    expression = pars_analysis.add_brackets(converted_strings)
-    expression = calc_solution.replace_minus_trig(expression)
+            fill_dict_user_modules(modules_launch)
+    expression = replace_minus_trig(add_brackets(merging_comparison_oper(join_minus(
+        convertion_const(conversion_signs(join_float(parser_string)))))))
 
     
-    def solut_func(expression: List[str or float]) -> List[float or bool]:
+    def solut_func(expression: List[str or float]) -> List[Union[str, bool, int, float]]:
         """
         this function changes list of parse and does counting
         """
         if len(expression) == 2:   
-            expression = calc_solution.solution_unar(expression)
+            expression = solution_unar(expression)
             return expression
         else:
-            expression = calc_solution.absolute_solution(expression)
-            expression = calc_solution.trig_solution(expression)
-            expression = calc_solution.del_brackets(expression)
-            expression = calc_solution.solution_comparison(expression)
+            expression = solution_comparison(del_brackets(trig_solution(absolute_solution(expression))))
             return expression
-    expression = solut_func(expression)
-    return expression[0]
+
+    result = solut_func(expression)
+    return result[0]
 
 
 #print(calculator())
