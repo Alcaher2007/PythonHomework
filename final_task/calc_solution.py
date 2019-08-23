@@ -5,30 +5,34 @@ from typing import List, Union
 
 
 """
-This module fills out dictionaries of math operators. Also it has functions, that decide expression of parser string.
+This module fills out dictionaries of math operators.
+Also it has functions, that decide expression of parser string.
 """
 
 
 OPERATORS = {'1': {'^': operator.pow},
-             '2': {'/': operator.truediv, '%': operator.mod, '*': operator.mul, '//': operator.floordiv},
-             '3': {'+': operator.add, '-': operator.sub}
+             '2': {'/': operator.truediv,
+                   '%': operator.mod,
+                   '*': operator.mul,
+                   '//': operator.floordiv},
+             '3': {'+': operator.add,
+                   '-': operator.sub}
              }
 
 OPERATORS = OrderedDict(OPERATORS)
 OPERATORS_TRIG = dict()
-OPERATORS_CONST = dict()               
-OPERATORS_COMPARISON = {'1':{'<': operator.lt,
-                            '>': operator.gt,
-                            '<=': operator.le,
-                            '>=': operator.ge,
-                            },
+OPERATORS_CONST = dict()
+OPERATORS_COMPARISON = {'1': {'<': operator.lt,
+                              '>': operator.gt,
+                              '<=': operator.le,
+                              '>=': operator.ge,
+                              },
                         '2': {'!=': operator.ne,
                               '==': operator.eq
-                             }
+                              }
                         }
-
-OPERATORS_COMPARISON =  OrderedDict(OPERATORS_COMPARISON)
-OPERATORS_UNAR = {'-': operator.neg, '+': operator.pos}                        
+OPERATORS_COMPARISON = OrderedDict(OPERATORS_COMPARISON)
+OPERATORS_UNAR = {'-': operator.neg, '+': operator.pos}
 
 
 def fill_dict_math(module: str) -> None:
@@ -59,7 +63,7 @@ def fill_dict_user_modules(list_of_modules) -> None:
             else:
                 OPERATORS_TRIG[key] = values
 
-                
+
 def convertion_const(expression: List[str]) -> List[Union[str, float]]:
     """
     replacement of string constants with their numerical value.
@@ -69,7 +73,7 @@ def convertion_const(expression: List[str]) -> List[Union[str, float]]:
             expression[i] = OPERATORS_CONST[value]
     return expression
 
-                      
+
 def absolute_solution(expr: List[Union[str, float]]) -> List[Union[str, float]]:
     """
     Operational Priority Solution and adding sign '(' after 'e'.
@@ -80,18 +84,18 @@ def absolute_solution(expr: List[Union[str, float]]) -> List[Union[str, float]]:
             if expr[i] in OPERATORS[key]:
                 try:
                     type(float(expr[i-1])) and type(float(expr[i+1]))
-                except:
+                except ValueError:
                     i += 1
                 else:
                     sing_1, sing_2 = float(expr[i-1]), float(expr[i+1])
-                    expr[i-1:i+2] = [OPERATORS[key][expr[i]](sing_1,sing_2)]
+                    expr[i-1:i+2] = [OPERATORS[key][expr[i]](sing_1, sing_2)]
                     i -= 1
             else:
                 i += 1
     for i, value in enumerate(expr):
         if value == '^' and i+3 < len(expr):
             if value == '^' and expr[i+1] == '(' and expr[i+3] != '^':
-                del expr[i+1]              
+                del expr[i+1]
     return expr
 
 
@@ -104,17 +108,32 @@ def trig_solution(exp: List[Union[str, float]]) -> List[Union[str, float]]:
         boolean = False
         i = 0
         while i < len(exp):
-            if exp[i] in OPERATORS_TRIG and exp[i+3] == ')':
-                if i+6 < len(exp):
-                    if exp[i+6] == ')' and exp[i+4] == '(':
-                        sign_1, sign_2 = float(exp[i+2]), float(exp[i+5])
-                        exp[i:i+7] = [OPERATORS_TRIG[exp[i]](sign_1, sign_2)]
-                        boolean = True
-                        i += 1
-                        continue
-                sign = float(exp[i+2])
-                exp[i:i+4] = [OPERATORS_TRIG[exp[i]](sign)]
-                boolean = True
+            if type(exp[i]) == str:
+                if exp[i][0].isalpha() and exp[i] not in OPERATORS_TRIG:
+                    print(f'ERROR: unknown function {exp[i]}')
+                    exit(0)
+                elif exp[i] in OPERATORS_TRIG and exp[i+3] == ')':
+                    if i+6 < len(exp):
+                        if exp[i+6] == ')' and exp[i+4] == '(':
+                            if i+9 < len(exp):
+                                if exp[i+9] == ')' and exp[i+7] == '(':
+                                    print(f'ERROR: extra comma')
+                                    exit(0)
+                                else:
+                                    sign_1, sign_2 = float(exp[i+2]), float(exp[i+5])
+                                    exp[i:i+7] = [OPERATORS_TRIG[exp[i]](sign_1, sign_2)]
+                                    boolean = True
+                                    i += 1
+                                    continue
+                            else:
+                                sign_1, sign_2 = float(exp[i+2]), float(exp[i+5])
+                                exp[i:i+7] = [OPERATORS_TRIG[exp[i]](sign_1, sign_2)]
+                                boolean = True
+                                i += 1
+                                continue
+                    sign = float(exp[i+2])
+                    exp[i:i+4] = [OPERATORS_TRIG[exp[i]](sign)]
+                    boolean = True
             i += 1
         exp = absolute_solution(exp)
     return exp
@@ -133,17 +152,17 @@ def del_brackets(exp: List[Union[str, float]]) -> List[Union[str, float]]:
     exp = absolute_solution(exp)
     return exp
 
-                
-def solution_comparison(exp: List[Union[str, float]]) -> List[Union[str, float]]:
+
+def solution_comparison(exp: List[Union[str, float]]) -> List[Union[str, float, bool]]:
     """
     Solving for operators of comparison.
     """
-    comparison_list= list()
+    comparison_list = list()
     for key in OPERATORS_COMPARISON:
-        i=0
+        i = 0
         while i < len(exp):
             if exp[i] in OPERATORS_COMPARISON[key]:
-               comparison_list.append(OPERATORS_COMPARISON[key][exp[i]](exp[i-1],exp[i+1]))
+                comparison_list.append(OPERATORS_COMPARISON[key][exp[i]](exp[i-1], exp[i+1]))
             i += 1
     if comparison_list:
         if False in comparison_list:
@@ -164,7 +183,8 @@ def solution_unar(exp: List[Union[str, float]]) -> List[Union[str, float]]:
 
 def join_minus(exp: List[Union[str, float]]) -> List[Union[str, float]]:
     """
-    Add minuses to the numbers on the right and also near the exponent. Addng a plus, where necessary. 
+    Add minuses to the numbers on the right and also near the exponent.
+    Addng a plus, where necessary.
     """
     for i, value in enumerate(exp):
         if value == '-':
@@ -183,7 +203,7 @@ def join_minus(exp: List[Union[str, float]]) -> List[Union[str, float]]:
                     if exp[i+2] == '^':
                         continue
                 exp[i:i+2] = ["+", "-{}".format(exp[i+1])]
-    
+
     for i, value in enumerate(exp):
         if value == '-':
             try:
@@ -207,35 +227,5 @@ def replace_minus_trig(exp: List[Union[str, float]]) -> List[Union[str, float]]:
             exp[i:i+1] = ['-1', '*']
     return exp
 
-    
-fill_dict_math(math)        
-                
 
-    
-    
-
-
-        
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-            
+fill_dict_math(math)

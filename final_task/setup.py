@@ -8,6 +8,6 @@ setup(
     author_email='pilat.egor@gmail.com',
     packages=find_packages(),
     entry_points={
-        'console_scripts': ['pycalc = pycalc:calculator']
+        'console_scripts': ['pycalc = pycalc:calc']
     }
 )

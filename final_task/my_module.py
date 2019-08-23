@@ -1,2 +1,2 @@
 def sin(number):
-    return 3/2
+    return 3
