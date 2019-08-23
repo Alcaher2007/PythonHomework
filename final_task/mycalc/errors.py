@@ -1,4 +1,4 @@
-from calc_solution import OPERATORS_COMPARISON, OPERATORS_CONST, OPERATORS_TRIG
+from mycalc.calc_solution import OPERATORS_COMPARISON, OPERATORS_CONST, OPERATORS_TRIG
 from string import digits, ascii_lowercase
 import re
 import shlex

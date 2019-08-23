@@ -1,9 +1,9 @@
 import argparse
 import shlex
-from pars_analysis import join_float, conversion_signs, merging_comparison_oper, add_brackets
-from calc_solution import *
+from mycalc.pars_analysis import join_float, conversion_signs, merging_comparison_oper, add_brackets
+from mycalc.calc_solution import *
 import importlib.util
-import errors
+import mycalc.errors
 from typing import List, Union
 
 
@@ -61,7 +61,7 @@ def calc() -> Union[str, bool, float, int]:
         modules_launch = import_module_from_spec(module)
         if modules_launch:
             fill_dict_user_modules(modules_launch)
-    errors.print_errors(exp)
+    mycalc.errors.print_errors(exp)
     expression = replace_minus_trig(add_brackets(merging_comparison_oper(join_minus(
         convertion_const(conversion_signs(join_float(parser_string)))))))
 
