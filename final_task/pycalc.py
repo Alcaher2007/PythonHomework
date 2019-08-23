@@ -13,12 +13,14 @@ line parsing and the final result calculation.
 """
 
 
-parser = argparse.ArgumentParser(description="Pure-python command-line calculator.", prefix_chars='+')
-parser.add_argument('cal_exp')
-parser.add_argument('+m', '++use-modules', metavar='MODULE', nargs='*',
+def cmd_parser():
+    parser = argparse.ArgumentParser(description="Pure-python command-line calculator.", prefix_chars='+')
+    parser.add_argument('cal_exp')
+    parser.add_argument('+m', '++use-modules', metavar='MODULE', nargs='*',
                     dest='modules', help="additional modules to use")
-results = parser.parse_args()
-parser_string = list(shlex.shlex(results.cal_exp, punctuation_chars=False))
+    results = parser.parse_args()
+    parser_string = list(shlex.shlex(results.cal_exp, punctuation_chars=False))
+    return results.cal_exp, results.modules, parser_string
 
 
 def check_module(module_name):
@@ -53,12 +55,13 @@ def calc() -> Union[str, bool, float, int]:
     """
     It's function, which collects all functions together and does the counting
     """
-    if results.modules:
-        modules = check_module(results.modules)
-        modules_launch = import_module_from_spec(modules)
+    exp, module, parser_string = cmd_parser()
+    if module:
+        modules = check_module(module)
+        modules_launch = import_module_from_spec(module)
         if modules_launch:
             fill_dict_user_modules(modules_launch)
-    errors.print_errors(results.cal_exp)
+    errors.print_errors(exp)
     expression = replace_minus_trig(add_brackets(merging_comparison_oper(join_minus(
         convertion_const(conversion_signs(join_float(parser_string)))))))
 
