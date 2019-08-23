@@ -7,7 +7,7 @@ import shlex
 OPERATORS = ['/', '*', '%', '^', '<', '>', '=', '!']
 
 
-def foo(pars_string):
+def print_errors(pars_string):
     if not pars_string:
         print(f'ERROR: empty line')
         exit(0)

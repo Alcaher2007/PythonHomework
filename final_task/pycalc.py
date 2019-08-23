@@ -58,7 +58,7 @@ def calc() -> Union[str, bool, float, int]:
         modules_launch = import_module_from_spec(modules)
         if modules_launch:
             fill_dict_user_modules(modules_launch)
-    errors.foo(results.cal_exp)
+    errors.print_errors(results.cal_exp)
     expression = replace_minus_trig(add_brackets(merging_comparison_oper(join_minus(
         convertion_const(conversion_signs(join_float(parser_string)))))))
 
