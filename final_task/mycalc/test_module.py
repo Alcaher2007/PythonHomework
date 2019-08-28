@@ -1,6 +1,6 @@
 from mycalc.pythoncalc import calc
-import unittest
 from math import *
+import unittest
 import mycalc.my_module
 
 

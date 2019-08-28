@@ -58,7 +58,7 @@ def merging_comparison_oper(split_list: List[Union[str, float]]) -> List[Union[s
     """
     Merging comparison operators
     """
-    list_oper = ['>', '<', '=', '!', '<=', '>=', '==', '!=']
+    list_oper = ['>', '<', '=', '!']
     for i, value in enumerate(split_list):
         if value in list_oper and split_list[i+1] in list_oper:
             split_list[i:i+2] = [value + split_list[i+1]]

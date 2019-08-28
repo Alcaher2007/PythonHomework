@@ -18,7 +18,7 @@ def print_errors(pars_string: str) -> None:
         raise RuntimeError(f'ERROR: empty line')
     elif pars_string.count('(') != pars_string.count(')'):
         raise RuntimeError(f'ERROR: brackets are not balanced')
-    elif pars_string.startswith(('=', '>', '<')):
+    elif pars_string.startswith(('=', '>', '<', '/', '*')):
         raise RuntimeError(f'ERROR: no first number in the line')
     elif not pars_string.endswith(((*digits), ')', (*OPERATORS_CONST.keys()))):
         raise RuntimeError(f'ERROR: the last position is not a number or bracket')
