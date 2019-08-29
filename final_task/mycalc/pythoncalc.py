@@ -14,9 +14,10 @@ line parsing and the final result calculation.
 
 
 def cmd_parser() -> str:
-    parser = argparse.ArgumentParser(description="Pure-python command-line calculator.", prefix_chars='+')
-    parser.add_argument('cal_exp')
-    parser.add_argument('+m', '++use-modules', metavar='MODULE', nargs='*',
+    parser = argparse.ArgumentParser(description="Pure-python command-line calculator.",
+                                     usage='%(prog)s [-h] EXPRESSION [-m MODULE [MODULE ...]]')
+    parser.add_argument('cal_exp', metavar='EXPRESSION', type=str, help='expression string to evaluate')
+    parser.add_argument('-m', '--use-modules', metavar='MODULE', nargs='*',
                         dest='modules', help="additional modules to use")
     results = parser.parse_args()
     return results.cal_exp, results.modules
