@@ -61,11 +61,22 @@ def calc(exp: str, module: list = None) -> Union[str, bool, float, int]:
         modules_launch = import_module_from_spec(modules_spec)
         if modules_launch:
             fill_dict_user_modules(modules_launch)
+
     mycalc.errors.print_errors(exp)
-    expression = replace_minus_trig(add_brackets(merging_comparison_oper(join_minus(
-        convertion_const(conversion_signs(cast_to_float(parser_list)))))))
-    results = solution_comparison(del_brackets(trig_solution(absolute_solution(solution_unar(expression)))))
-    return results[0]
+
+    exp_list = conversion_signs(cast_to_float(parser_list))
+    exp_with_convert_const = convertion_const(exp_list)
+    exp_with_join_minus = join_minus(exp_with_convert_const)
+    exp_with_merging_comparison = merging_comparison_oper(exp_with_join_minus)
+    exp_with_add_brackets = add_brackets(exp_with_merging_comparison)
+    converted_expression = replace_minus_trig(exp_with_add_brackets)
+
+    decision_unar_operations = solution_unar(converted_expression)
+    decision_math_opers = absolute_solution(decision_unar_operations)
+    decision_trig_opers = trig_solution(decision_math_opers)
+    exp_after_del_brackets = del_brackets(decision_trig_opers)
+    final_result = solution_comparison(exp_after_del_brackets)
+    return final_result[0]
 
 
 def main_call() -> None:
